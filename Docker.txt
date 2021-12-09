@@ -1,0 +1,267 @@
+sudo apt update
+
+sudo apt-get install docker.io -y  -  for installing docker  in ubuntu
+sudo yum install docker  -> in aws ec2
+
+sysudo apt updatestemstl status docker.service  -  for checking the docker
+---------------------------------------------------------------------------
+sudo docker ps -> show running container (process state)
+
+sudo docker ps -a -> show all containers
+
+sudo docker ps -l -> show last started container
+
+sudo docker ps -q ->only show id of first containers
+
+sudo docker ps -lq -> only show container id of last containers
+-----------------------------------------------------------------
+                 image
+                   |                   
+sudo docker run busybox echo hello world
+
+docker run -it  ubuntu bash -> ubuntu container
+i -> inside
+t -> terminal
+-------------------------------------------------
+apt install figlet
+figlet sairam 
+----------------------------------------------------
+docker run jpetazzo/clock
+
+docker run -d jpetazzo/clock -> will run in background
+
+docker ps -a | grep -i "jpetazzo"  -> for searching specific container
+
+----------------------------------------------------
+docker logs containerid -f
+
+docker logs --tail 1 --follow containerid -> show real time logs of containers
+
+docker start continerid -> it will start the container
+
+docker kill containerid  -> it will containerid directly
+
+docker stop containerid  -> it will send signal to terminal...wait for 10sec..
+if it was not stopped then it will kill the container
+
+docker rm containerid  -> it will remove container
+
+-------------------------------------------------------------
+
+docker images -> show all images we usedclea
+
+docker system prune -> it will remove all stopped and not used containers
+
+--------------------------------------------------------------
+docker info 
+
+docker --version
+
+docker image ls - give images
+
+docker image rm repository name -> remove image
+ 
+docker image ls --filter "before = imageid" -> gives the images before this image
+
+docker image ls --filter "since = imageid" -> gives the images upto this image
+
+docker image ls --filter "dangling=true"
+
+docker image ls --format "{{.ID}} :{{Repository}}"
+
+
+docker image ls --no-trunc ->give full image id
+
+docker image inspect imageid 
+
+docker image inspect imageid | more
+
+docker image tag jpetazzo/clock:latest sai:latest -> it will create new imageid with 
+same image id of jpetazzo/clock and name as sai 
+
+-------------------------------------------------------------------------------------
+
+creating container with ubuntu image and install figlet inside it and name it as "figlet"!?
+
+1. nano Dockerfile
+--> FROM ubuntu  (image)
+	
+    RUN apt-get update
+    RUN apt-get install figlet
+2. docker build -t figlet .
+	build - to build the container and run the docker file on it
+	t - tag name
+	figlet - name of the container
+	. -current directory
+	
+3. docker run -it figlet
+	run - to run container
+	it - inside terminal
+	figlet - container name
+4. figlet abc
+
+------------------------------------------------------------------------------------
+
+Custom image
+
+1.Dockerfile
+
+->FROM centos
+  MAINTAINER seerap.sai1999@gmail.com
+  RUN yum install -y httpd 
+  EXPOSE 80
+2. docker build -t newimg .
+3. docker run -it newimg
+
+mutilple installing -> docker 
+
+2 files	
+RUN yum install -y httpd && yum install -y firefox
+or
+RUN yum install -y httpd \ git
+
+3 files
+RUN yum install -y httpd && yum install -y firefox \ git
+
+-----------------------------------------------------------------------------------
+
+Pushing image to docker hub!!
+
+      image name   tag name   repo name and path  newtag u want to name
+    	    |  	     |	 	       |	    |
+docker tag newimg3:latest sairamseerapu/test-repo:tag1
+
+docker images - check wherever the new names image is there
+
+docker push sairamseerapu/test-repo:tag1
+
+-------------------------------------------------------------------------------------
+
+CMD command -
+
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install figlet
+CMD figlet -f script hello
+
+----------------------------------------------------------
+
+ENTRYPOINT 
+Dockerfile
+- FROM ubuntu
+  RUN apt-get update
+  RUN apt-get install figlet
+  ENTRYPOINT ["figlet","hello"]
+  CMD hello world
+
+command - docker run newimg8 sai
+
+---------------------------------------------------------------------
+
+Run c program in container?
+
+Docker file
+- FROM ubuntu
+  RUN apt-get update
+  RUN apt-get install build-essential
+  RUN apt-get install gcc
+  RUN gcc program.c -o hello
+  COPY program.c/
+  RUN make hello
+  CMD /hello
+
+-------------------------------------------------------------------------------
+				Docker networing
+-------------------------------------------------------------------------------
+
+docker network ls -> to see all networks
+
+		     network name
+			  |
+docker network inspect bridge -> show full details
+
+docker run -d -P nginx
+-d -> background run
+-P -> publish all
+
+docker network create --driver bridge new_network -> for creating new network
+
+	          new network name  image name 
+   			    |          |
+docker run -it --network=new_network ubuntu /bin/bash -> adding network to image
+
+ to make 2 diff images interact under same n/w 
+docker run -ddi --name sairam --net new_network ubuntu /bin/bash
+docker run -it --name sairam1 --net new_network centos
+
+----------------------------------------------------------------------------
+				Docker Volume 
+----------------------------------------------------------------------------
+
+docker volume ls  -> give list of volume
+
+docker volume create volume_name -> create volume
+
+docker volume inspect volume_name -> show full detail of volume
+
+docker volume rm volume_name -> remove volume
+
+-------------------------------------------------------------------------------
+	   	    		Docker Compose
+-------------------------------------------------------------------------------
+apt-get install pip
+
+apt-get install docker-compose ->installing of docker-compose
+
+1 ->docker-compose.yml
+version: '2'
+service:
+    databases:
+      image: mysql
+      ports:
+      - "3306:3306"
+      environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=demodb
+    web:
+      image: nginx
+
+2 ->./docker-compose up ->for executing docker compose file
+
+---------------------------------------------------------------
+
+docker-compose.yaml
+1 -> 
+wordpress:
+  image: wordpress
+  links:
+    - db:mysql
+  ports:
+    - 8080:80
+db:
+ image: mariadb
+ environment: 
+  MYSQL_ROOT_PASSWORD: example
+
+2. docker-compose up
+
+3. public-ip:8080 in browser
+
+------------------------------------------------------------------------------------------
+Static website
+
+Dockerfile
+FROM nginx
+COPY . /usr/share/nginx/html
+
+index.html
+<h1>welcome<h1>
+------------------------------------------------------
+docker rm -f $(docker ps -a -q)
+this will delete all the container
+
+
+
+

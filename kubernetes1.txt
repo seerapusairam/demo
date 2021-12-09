@@ -1,0 +1,57 @@
+failed scheduling pod - 
+kubectl taint nodes  node_name node-role.kubernetes.io/master-
+kubectl taint nodes  node_name node-role.kubernetes.io/master-
+(this commands also helps you run pods on master node)
+
+
+port 10250 is in use during join - kubeadm reset on worker side
+
+--unable to recognise calico command
+-3.20
+
+--certificate error server 509
+export KUBECONFIG=/etc/kubernetes/admin.conf
+
+--crashloop backoff for flannel
+kubeadm --pod-network-cidr=10.244.0.0/16
+
+localhost 8080 connection was refused
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+
+--launch a pod from worker node 
+
+WORKER NODE: 
+1. mkdir -p $HOME/.kube 
+
+MASTER NODE TO WORKER NODE: 
+2. /etc/kubernetes/admin.conf content to $HOME/.kube/config
+
+WORKER NODE: 
+3. sudo chown $(id -u):$(id -g) $HOME/.kube/config
+ 
+
+--delete a pod 
+kubectl delete pods <pod> --grace-period=0 --force
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

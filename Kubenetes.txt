@@ -1,0 +1,59 @@
+Kubenetes
+
+ctrl+r -> search commands
+
+ls -lrth
+
+kubectl describe pod pod-name -> to see the ifo of pod 
+
+kubectl delete pod podname ->to delete a pod
+
+kubectl get pod --show-labels
+
+kubectl get pods -o=wide
+
+kubectl get pods -o=wide --sort-by="{.spec.nodeName}"
+
+kubectl delete pod pod-name -> to delete a pod
+
+kubectl get pods --field-selector=status.phase=Running -> to get only running pods
+
+kubectl delete pods –all -> To delete all pods in one go 
+
+API server - communicate b/w two diff application like an interface
+---------------------------------------------------------------------
+1.vi first-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  labels:
+     env: dev
+     version: v1
+spec:
+  containers:
+  - name: my-nginx
+    image: nginx:latest
+    ports:
+     - containerPort: 80
+
+2.kubectl create -f first-pod.yaml  -> creating a pod
+
+3.kubectl get pods - shows pods
+
+------------------------------------------------------------------------
+
+hello-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+   name: hello-pod
+   labels:
+     version: v1
+     zones: prod
+spec:
+  containers:
+  - name: hello-pod
+    image: nigelpoulton/pluralsight-docker-ci:latest
+    ports:
+    - containerPort: 80
