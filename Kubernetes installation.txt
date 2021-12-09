@@ -13,6 +13,7 @@ root@ip-172-31-4-104:/etc/docker# history
    12  sudo apt-mark hold kubeadm kubelet kubectl
    13  kubeadm version
    14  sudo apt-get install kubeadm kubelet kubectl
+
    15  sudo apt-mark hold kubeadm kubelet kubectl
    16  kubeadm version
 
@@ -65,3 +66,5 @@ root@ip-172-31-4-104:/etc/docker# history
 ------------
 for running the pods
 kubectl apply -f https://docs.projectcalico.org/v3.20/manifests/calico.yaml
+
+kubeadm join 192.168.0.100:6443 --token xqz8g2.dtsmma56mahr2iyj --discovery-token-ca-cert-hash sha256:40b960e44e1b8ecd0cb12dab1f60cdebb09f526479f725470773ea14c648c835 
