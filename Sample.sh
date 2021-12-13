@@ -1,2 +1,2 @@
 #!/bin/sh
-echo "What is your name?"
+echo "Hi this is from git"
